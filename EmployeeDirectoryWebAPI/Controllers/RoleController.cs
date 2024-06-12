@@ -3,12 +3,14 @@ using Data.Models;
 using Data.Repository;
 using EmployeeDirectoryWebAPI.DTO;
 using EmployeeDirectoryWebAPI.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeDirectoryWebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class RoleController(IRoleRepository roleRepository, IRoleDetailRepository roleDetailRepository, IRoleProvider roleProvider) : Controller
     {
         private readonly IRoleRepository _roleRepository = roleRepository;

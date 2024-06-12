@@ -16,18 +16,31 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddAuthentication(options =>
 {
-   // options.CustomSchemaIds(type => type.ToString());
-
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(Options =>
+{
+    Options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = false,
+        ValidateAudience = true,
+        ValidateIssuerSigningKey = true,
+        ValidAudience = builder.Configuration["JWT:Audience"],
+        ValidIssuer = builder.Configuration["JWT:Issuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:key"]!))
+    };
 });
-
 builder.Services.AddScoped<Data.Interfaces.IDepartmentRepository, Data.Repository.DepartmentRepository>();
 builder.Services.AddScoped<Data.Interfaces.IProjectRepository, Data.Repository.ProjectRepository>();
 builder.Services.AddScoped<Data.Interfaces.IRoleDetailRepository, Data.Repository.RoleDetailsRepository>();
 builder.Services.AddScoped<Data.Interfaces.IRoleRepository, Data.Repository.RoleRepository>();
 builder.Services.AddScoped<Data.Interfaces.ILocationRepository, Data.Repository.LocationRepository>();
 builder.Services.AddScoped<Data.Interfaces.IEmployeeRepository, Data.Repository.EmployeeRepository>();
+builder.Services.AddScoped<Data.Interfaces.IUserRepository, Data.Repository.UserRepository>();
 builder.Services.AddScoped<IRoleProvider,RoleProvider >();
 builder.Services.AddScoped<IValidations, Validations>();
 builder.Services.AddScoped<IEmployeeProvider, EmployeeProvider >();
@@ -50,7 +63,9 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
 
 app.MapControllers();
 

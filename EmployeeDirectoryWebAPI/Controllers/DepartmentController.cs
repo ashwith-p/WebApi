@@ -2,12 +2,14 @@
 using Data.Models;
 using Data.Repository;
 using EmployeeDirectoryWebAPI.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DepartmentDirectoryWebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class DepartmentController(IDepartmentRepository departmentRepository) : Controller
     {
 

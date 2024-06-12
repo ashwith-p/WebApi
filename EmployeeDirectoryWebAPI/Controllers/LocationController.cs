@@ -3,12 +3,13 @@ using Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using EmployeeDirectoryWebAPI.DTO;
 using Data.Repository;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EmployeeDirectoryWebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-
+    [Authorize]
     public class LocationController(ILocationRepository locationRepository) : Controller
     {
         private readonly ILocationRepository _locationRepository = locationRepository;

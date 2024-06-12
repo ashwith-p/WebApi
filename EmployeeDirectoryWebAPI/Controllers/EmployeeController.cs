@@ -13,7 +13,7 @@ namespace EmployeeDirectoryWebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize(Roles =("SuperAdmins,Admins"))]
+    [Authorize]
     public class EmployeeController(IEmployeeRepository employeeRepository,IEmployeeProvider employeeProvider) : Controller
     {
         private readonly  IEmployeeRepository _employeeRepository=employeeRepository;

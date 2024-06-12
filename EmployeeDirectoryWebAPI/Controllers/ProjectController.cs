@@ -2,12 +2,14 @@
 using Data.Models;
 using Data.Repository;
 using EmployeeDirectoryWebAPI.DTO;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EmployeeDirectoryWebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
+    [Authorize]
     public class ProjectController(IProjectRepository projectRepository) : Controller
     {
         private readonly IProjectRepository _projectRepository = projectRepository;
