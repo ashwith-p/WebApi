@@ -17,7 +17,7 @@ namespace Data.Repository
             return await _dbContext.Set<T>().ToListAsync();
         }
 
-        public async Task<T?> GetById(object? id)
+        public async virtual Task<T?>  GetById(object? id)
         {
             return await _dbContext.Set<T>().FindAsync(id);
         }

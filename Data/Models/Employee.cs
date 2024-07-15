@@ -36,21 +36,21 @@ public partial class Employee
 
     public int? ProjectId { get; set; }
 
-    [NotMapped]
+  
     public virtual Department Department { get; set; } = null!;
 
-    [NotMapped]
+   
     public virtual ICollection<Employee> InverseManager { get; set; } = new List<Employee>();
 
-    [NotMapped]
+   
     public virtual Location Location { get; set; } = null!;
 
-    [NotMapped]
+   
     public virtual Employee? Manager { get; set; }
 
     [NotMapped]
     public virtual Project? Project { get; set; }
 
-    [NotMapped]
-    public virtual Role Role { get; set; } = null!;
+
+    public  Role Role { get; set; } 
 }

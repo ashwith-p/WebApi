@@ -8,12 +8,13 @@ using System.Globalization;
 namespace EmployeeDirectoryWebAPI.Providers
 {
     public class Validations(IDepartmentRepository departmentRepository,IProjectRepository projectRepository,
-        ILocationRepository locationRepository,IRoleRepository roleRepository):IValidations
+        ILocationRepository locationRepository,IRoleRepository roleRepository,IEmployeeRepository employeeRepository):IValidations
     {
         private readonly IDepartmentRepository _departmentRepository=departmentRepository;
         private readonly IProjectRepository _projectRepository=projectRepository;
         private readonly ILocationRepository _locationRepository=locationRepository;
         private readonly IRoleRepository _roleRepository=roleRepository;
+        private readonly IEmployeeRepository _employeeRepository=employeeRepository;
         public async Task<bool> DepartmentValidation(int? id)
         {
             return await _departmentRepository.GetById(id)!=null;
@@ -32,6 +33,10 @@ namespace EmployeeDirectoryWebAPI.Providers
         public async Task<bool> RoleValidation(int? role)
         {
             return await _roleRepository.GetById(role) != null;
+        }
+        public async Task<bool> ManagerValidation(string? id)
+        {
+            return await _employeeRepository.GetById(id) != null;
         }
 
         public bool IsValidName(string name)

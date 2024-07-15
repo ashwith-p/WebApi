@@ -9,7 +9,7 @@ namespace EmployeeDirectoryWebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    //[Authorize]
     public class ProjectController(IProjectRepository projectRepository) : Controller
     {
         private readonly IProjectRepository _projectRepository = projectRepository;

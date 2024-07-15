@@ -4,6 +4,7 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(AshwithEmployeeDirectoryContext))]
-    partial class AshwithEmployeeDirectoryContextModelSnapshot : ModelSnapshot
+    [Migration("20240619190907_initial")]
+    partial class initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -57,9 +60,6 @@ namespace Data.Migrations
                         .HasMaxLength(320)
                         .HasColumnType("nvarchar(320)");
 
-                    b.Property<string>("EmployeeId")
-                        .HasColumnType("nvarchar(6)");
-
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(35)
@@ -74,6 +74,9 @@ namespace Data.Migrations
                         .HasColumnType("nvarchar(35)");
 
                     b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LocationId1")
                         .HasColumnType("int");
 
                     b.Property<string>("ManagerId")
@@ -93,9 +96,9 @@ namespace Data.Migrations
 
                     b.HasIndex("DepartmentId");
 
-                    b.HasIndex("EmployeeId");
-
                     b.HasIndex("LocationId");
+
+                    b.HasIndex("LocationId1");
 
                     b.HasIndex("ManagerId");
 
@@ -204,20 +207,20 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Models.Employee", b =>
                 {
                     b.HasOne("Data.Models.Department", "Department")
-                        .WithMany("Employees")
+                        .WithMany()
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Data.Models.Employee", null)
-                        .WithMany("InverseManager")
-                        .HasForeignKey("EmployeeId");
-
                     b.HasOne("Data.Models.Location", "Location")
-                        .WithMany("Employees")
+                        .WithMany()
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("Data.Models.Location", null)
+                        .WithMany("Employees")
+                        .HasForeignKey("LocationId1");
 
                     b.HasOne("Data.Models.Employee", "Manager")
                         .WithMany()
@@ -230,7 +233,7 @@ namespace Data.Migrations
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("Data.Models.Role", "Role")
-                        .WithMany("Employees")
+                        .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -255,26 +258,11 @@ namespace Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Data.Models.Department", b =>
-                {
-                    b.Navigation("Employees");
-                });
-
-            modelBuilder.Entity("Data.Models.Employee", b =>
-                {
-                    b.Navigation("InverseManager");
-                });
-
             modelBuilder.Entity("Data.Models.Location", b =>
                 {
                     b.Navigation("Employees");
 
                     b.Navigation("RoleDetails");
-                });
-
-            modelBuilder.Entity("Data.Models.Role", b =>
-                {
-                    b.Navigation("Employees");
                 });
 #pragma warning restore 612, 618
         }

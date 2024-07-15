@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\ashwith.p\\source\\repos\\ashwith-p\\WebApi\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ashwith.p\\source\\repos\\ashwith-p\\WebApi\\EmployeeDirectoryWebAPI\\EmployeeDirectoryWebAPI.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:EmployeeDirectoryWebAPI\\EmployeeDirectoryWebAPI.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\ashwith.p\\source\\repos\\ashwith-p\\WebApi\\.vs\\tasks.vs.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
       "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:.vs\\tasks.vs.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     }
@@ -27,6 +31,19 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "EmployeeDirectoryWebAPI.csproj",
+              "DocumentMoniker": "C:\\Users\\ashwith.p\\source\\repos\\ashwith-p\\WebApi\\EmployeeDirectoryWebAPI\\EmployeeDirectoryWebAPI.csproj",
+              "RelativeDocumentMoniker": "EmployeeDirectoryWebAPI\\EmployeeDirectoryWebAPI.csproj",
+              "ToolTip": "C:\\Users\\ashwith.p\\source\\repos\\ashwith-p\\WebApi\\EmployeeDirectoryWebAPI\\EmployeeDirectoryWebAPI.csproj",
+              "RelativeToolTip": "EmployeeDirectoryWebAPI\\EmployeeDirectoryWebAPI.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2024-06-18T10:54:18.854Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "tasks.vs.json",
               "DocumentMoniker": "C:\\Users\\ashwith.p\\source\\repos\\ashwith-p\\WebApi\\.vs\\tasks.vs.json",
               "RelativeDocumentMoniker": ".vs\\tasks.vs.json",
@@ -34,8 +51,7 @@
               "RelativeToolTip": ".vs\\tasks.vs.json",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAEAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2024-06-11T07:28:55.169Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-06-11T07:28:55.169Z"
             }
           ]
         }

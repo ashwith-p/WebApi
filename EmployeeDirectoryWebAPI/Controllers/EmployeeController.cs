@@ -13,7 +13,7 @@ namespace EmployeeDirectoryWebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    //[Authorize]
     public class EmployeeController(IEmployeeRepository employeeRepository,IEmployeeProvider employeeProvider) : Controller
     {
         private readonly  IEmployeeRepository _employeeRepository=employeeRepository;
@@ -21,9 +21,9 @@ namespace EmployeeDirectoryWebAPI.Controllers
 
         [HttpGet]
         [Route("All", Name = "GetEmployees")]
-        public ActionResult<List<Employee>> GetEmployees()
+        public  async Task<IActionResult> GetEmployees()
         {
-            List<Employee> employees = _employeeRepository.GetAll().Result;
+            List<EmployeeInfo> employees = await _employeeRepository.GetAllEmployees();
             return Ok(employees);
         }
 
@@ -42,8 +42,8 @@ namespace EmployeeDirectoryWebAPI.Controllers
             return Ok(employee);
         }
 
-        [HttpDelete("{id}")]
-        public ActionResult<bool> DeleteEmployee(string id)
+        [HttpDelete("Delete/{id}")]
+        public async Task<ActionResult> DeleteEmployee(string id)
         {
             if (string.IsNullOrEmpty(id))
             {
@@ -54,13 +54,14 @@ namespace EmployeeDirectoryWebAPI.Controllers
             {
                 return NotFound($"Employee with id:{id} not found");
             }
-            return Ok(_employeeRepository.Delete(employee));
+            await _employeeRepository.Delete(employee);
+            return Ok();
         }
 
         [HttpPost]
         [Route("Create")]
 
-        public async Task<ActionResult<EmployeeDTO>> AddEmployee([FromBody]EmployeeDTO employeeDTO)
+        public async Task<ActionResult<EmployeeDTO>> AddEmployee(EmployeeDTO employeeDTO)
         {
             if (employeeDTO == null)
             {
@@ -71,7 +72,15 @@ namespace EmployeeDirectoryWebAPI.Controllers
                 string id;
                 if (_employeeRepository.GetAll().Result.LastOrDefault()!=null)
                 {
-                    id = "TZ000" + int.Parse(_employeeRepository.GetAll().Result.LastOrDefault()!.Id[3..]) + 1;
+                    int val = int.Parse(_employeeRepository.GetAll().Result.LastOrDefault()!.Id[3..]) + 1;
+                    if((val.ToString()).Length==1)
+                    {
+                        id = "TZ000"+val.ToString();
+                    }
+                    else
+                    {
+                        id = "TZ00" + val.ToString();
+                    }
                 }
                 else
                 {
@@ -102,7 +111,7 @@ namespace EmployeeDirectoryWebAPI.Controllers
 
         [HttpPut("Edit/{id}")]
 
-        public async Task<ActionResult<EmployeeDTO>> EditEmployee(string id,[FromBody] EmployeeDTO employeeDTO)
+        public async Task<ActionResult<EmployeeDTO>> EditEmployee([FromRoute]string id,[FromBody] EmployeeDTO employeeDTO)
         {
             Employee? employee=_employeeRepository.GetById(id).Result;
             if(employee==null)

@@ -9,6 +9,8 @@
 
         public Task<bool> RoleValidation(int? role);
 
+        public Task<bool> ManagerValidation(string? id);
+
         public bool IsValidName(string name);
 
         public bool isValidDateOfBirth(string date);

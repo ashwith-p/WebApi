@@ -2,19 +2,11 @@
 using Microsoft.EntityFrameworkCore;
 using Data.Models;
 
+
 namespace Data;
 
-public partial class AshwithEmployeeDirectoryContext : DbContext
+public partial class AshwithEmployeeDirectoryContext(DbContextOptions<AshwithEmployeeDirectoryContext> options) : DbContext(options)
 {
-    public AshwithEmployeeDirectoryContext()
-    {
-    }
-
-    public AshwithEmployeeDirectoryContext(DbContextOptions<AshwithEmployeeDirectoryContext> options)
-        : base(options)
-    {
-    }
-
     public virtual DbSet<Department> Departments { get; set; }
 
     public virtual DbSet<Employee> Employees { get; set; }
@@ -28,11 +20,17 @@ public partial class AshwithEmployeeDirectoryContext : DbContext
     public virtual DbSet<RoleDetail> RoleDetails { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
+    public virtual DbSet<EmployeeInfo> GetEmployees { get; set; }
 
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        modelBuilder.Entity<EmployeeInfo>()
+        .ToView(nameof(GetEmployees))
+        .HasKey(e => e.Id);
+
+
         modelBuilder.Entity<Employee>()
             .HasOne(e => e.Manager)
             .WithMany()
@@ -41,19 +39,19 @@ public partial class AshwithEmployeeDirectoryContext : DbContext
 
         modelBuilder.Entity<Employee>()
             .HasOne(e => e.Role)
-            .WithMany()
+            .WithMany(e=>e.Employees)
             .HasForeignKey(e => e.RoleId)
             .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<Employee>()
             .HasOne(e => e.Department)
-            .WithMany()
+            .WithMany(e=>e.Employees)
             .HasForeignKey(e => e.DepartmentId)
             .OnDelete(DeleteBehavior.Restrict);
 
         modelBuilder.Entity<Employee>()
             .HasOne(e => e.Location)
-            .WithMany()
+            .WithMany(e=>e.Employees)
             .HasForeignKey(e => e.LocationId)
             .OnDelete(DeleteBehavior.Restrict);
 

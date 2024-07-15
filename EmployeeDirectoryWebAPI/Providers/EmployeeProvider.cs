@@ -15,7 +15,7 @@ namespace EmployeeDirectoryWebAPI.Providers
     {
         private readonly IValidations _validations=validations;
         private readonly IEmployeeRepository _employeeRepository=employeeRepository;
-        public bool IsValidEmployee(string value, string type) 
+        public  bool IsValidEmployeeAsync(string value, string type) 
         {
             string data = value.Trim();
 
@@ -51,7 +51,7 @@ namespace EmployeeDirectoryWebAPI.Providers
                 case nameof(EmployeeDTO.DepartmentId):
                     return _validations.DepartmentValidation(int.Parse(data)).Result;
                 case nameof(EmployeeDTO.ManagerId):
-                    return _employeeRepository.GetById(data)!=null || data==null;
+                    return  _validations.ManagerValidation(data).Result || data=="";
                 case nameof(EmployeeDTO.ProjectId):
                     return _validations.ProjectValidation(int.Parse(data)).Result;
 
@@ -65,10 +65,14 @@ namespace EmployeeDirectoryWebAPI.Providers
             Type type = typeof(EmployeeDTO);
             foreach (PropertyInfo prop in type.GetProperties())
             {
-                if (!IsValidEmployee(Convert.ToString(prop.GetValue(employee))!, prop.Name))
+                if (!IsValidEmployeeAsync(Convert.ToString(prop.GetValue(employee))!, prop.Name))
                 {
-                   isValidEmployee = false; 
-                    break;
+                    if(prop.Name!=nameof(EmployeeDTO.Id))
+                    {
+                        isValidEmployee = false;
+                        break;
+                    }
+                   
                 }
             }
             return isValidEmployee;

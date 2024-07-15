@@ -9,7 +9,7 @@ namespace DepartmentDirectoryWebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    //[Authorize]
     public class DepartmentController(IDepartmentRepository departmentRepository) : Controller
     {
 
@@ -26,7 +26,7 @@ namespace DepartmentDirectoryWebAPI.Controllers
         [HttpGet("{id:int}", Name = "GetDepartmentById")]
         public ActionResult<List<Department>> GetDepartmentById(int id)
         {
-            if (id >= 0)
+            if (id <= 0)
             {
                 return BadRequest("Invalid Department id");
             }

@@ -4,6 +4,7 @@ using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(AshwithEmployeeDirectoryContext))]
-    partial class AshwithEmployeeDirectoryContextModelSnapshot : ModelSnapshot
+    [Migration("20240703065704_changed_db")]
+    partial class changed_db
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -76,6 +79,9 @@ namespace Data.Migrations
                     b.Property<int>("LocationId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("LocationId1")
+                        .HasColumnType("int");
+
                     b.Property<string>("ManagerId")
                         .HasMaxLength(6)
                         .HasColumnType("nvarchar(6)");
@@ -96,6 +102,8 @@ namespace Data.Migrations
                     b.HasIndex("EmployeeId");
 
                     b.HasIndex("LocationId");
+
+                    b.HasIndex("LocationId1");
 
                     b.HasIndex("ManagerId");
 
@@ -204,7 +212,7 @@ namespace Data.Migrations
             modelBuilder.Entity("Data.Models.Employee", b =>
                 {
                     b.HasOne("Data.Models.Department", "Department")
-                        .WithMany("Employees")
+                        .WithMany()
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -214,10 +222,14 @@ namespace Data.Migrations
                         .HasForeignKey("EmployeeId");
 
                     b.HasOne("Data.Models.Location", "Location")
-                        .WithMany("Employees")
+                        .WithMany()
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.HasOne("Data.Models.Location", null)
+                        .WithMany("Employees")
+                        .HasForeignKey("LocationId1");
 
                     b.HasOne("Data.Models.Employee", "Manager")
                         .WithMany()
@@ -230,7 +242,7 @@ namespace Data.Migrations
                         .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("Data.Models.Role", "Role")
-                        .WithMany("Employees")
+                        .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -255,11 +267,6 @@ namespace Data.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Data.Models.Department", b =>
-                {
-                    b.Navigation("Employees");
-                });
-
             modelBuilder.Entity("Data.Models.Employee", b =>
                 {
                     b.Navigation("InverseManager");
@@ -270,11 +277,6 @@ namespace Data.Migrations
                     b.Navigation("Employees");
 
                     b.Navigation("RoleDetails");
-                });
-
-            modelBuilder.Entity("Data.Models.Role", b =>
-                {
-                    b.Navigation("Employees");
                 });
 #pragma warning restore 612, 618
         }

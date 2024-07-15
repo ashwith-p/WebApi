@@ -3,6 +3,7 @@ using Domain.Providers;
 using EmployeeDirectoryWebAPI.Interfaces;
 using EmployeeDirectoryWebAPI.Providers;
 using Microsoft.EntityFrameworkCore;
+
 using Microsoft.AspNetCore.Authentication.BearerToken;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Options;
@@ -17,23 +18,31 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddAuthentication(options =>
+builder.Services.AddCors(options =>
 {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-}).AddJwtBearer(Options =>
-{
-    Options.TokenValidationParameters = new TokenValidationParameters
+    options.AddPolicy("Allow", builder =>
     {
-        ValidateIssuer = false,
-        ValidateAudience = true,
-        ValidateIssuerSigningKey = true,
-        ValidAudience = builder.Configuration["JWT:Audience"],
-        ValidIssuer = builder.Configuration["JWT:Issuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:key"]!))
-    };
+        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+    });
 });
+
+//builder.Services.AddAuthentication(options =>
+//{
+//    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+//    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+//}).AddJwtBearer(Options =>
+//{
+//    Options.TokenValidationParameters = new TokenValidationParameters
+//    {
+//        ValidateIssuer = false,
+//        ValidateAudience = true,
+//        ValidateIssuerSigningKey = true,
+//        ValidAudience = builder.Configuration["JWT:Audience"],
+//        ValidIssuer = builder.Configuration["JWT:Issuer"],
+//        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:key"]!))
+//    };
+//});
+
 builder.Services.AddScoped<Data.Interfaces.IDepartmentRepository, Data.Repository.DepartmentRepository>();
 builder.Services.AddScoped<Data.Interfaces.IProjectRepository, Data.Repository.ProjectRepository>();
 builder.Services.AddScoped<Data.Interfaces.IRoleDetailRepository, Data.Repository.RoleDetailsRepository>();
@@ -62,8 +71,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("Allow");
 
-app.UseAuthentication();
+//app.UseAuthentication();
+
 app.UseAuthorization();
 
 

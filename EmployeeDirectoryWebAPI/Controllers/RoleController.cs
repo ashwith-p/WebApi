@@ -10,7 +10,7 @@ namespace EmployeeDirectoryWebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    //[Authorize]
     public class RoleController(IRoleRepository roleRepository, IRoleDetailRepository roleDetailRepository, IRoleProvider roleProvider) : Controller
     {
         private readonly IRoleRepository _roleRepository = roleRepository;
@@ -19,16 +19,28 @@ namespace EmployeeDirectoryWebAPI.Controllers
 
         [HttpGet]
         [Route("All", Name = "GetRoles")]
-        public ActionResult<List<Role>> GetRoles()
+        public ActionResult<List<RoleDTO>> GetRoles()
         {
             List<Role> roles = _roleRepository.GetAll().Result;
-            return Ok(roles);
+            List<RoleDTO> rolesDTO = new List<RoleDTO>();
+            foreach (Role role in roles)    
+            {
+                RoleDTO dummy = new RoleDTO();
+                dummy.Id=role.Id;
+                dummy.Name = role.Name;
+                dummy.Description = role.Description;
+                dummy.Department = role.DepartmentId;
+                dummy.Location=(_roleDetailRepository.GetRoleDetailsById(role.Id).Result).Select(s=>s.LocationId).ToList();
+
+                rolesDTO.Add(dummy);
+            }
+            return Ok(rolesDTO);
         }
 
         [HttpGet("{id:int}", Name = "GetRoleById")]
         public ActionResult<List<Role>> GetRoleById(int id)
         {
-            if (id >= 0)
+            if (id <= 0)
             {
                 return BadRequest("Invalid Role id");
             }

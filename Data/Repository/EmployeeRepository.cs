@@ -9,8 +9,16 @@ namespace Data.Repository
 {
     public class EmployeeRepository : GenericRepository<Employee>, IEmployeeRepository
     {
+        public AshwithEmployeeDirectoryContext _context { get; set; }
         public EmployeeRepository(AshwithEmployeeDirectoryContext context) : base(context)
         {
+            _context = context;
+        }
+
+        public async Task<List<EmployeeInfo>> GetAllEmployees()
+        {
+            var data =  await _context.GetEmployees.ToListAsync();
+            return data;
         }
     }
 

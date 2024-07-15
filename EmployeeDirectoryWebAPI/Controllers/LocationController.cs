@@ -9,7 +9,7 @@ namespace EmployeeDirectoryWebAPI.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    //[Authorize]
     public class LocationController(ILocationRepository locationRepository) : Controller
     {
         private readonly ILocationRepository _locationRepository = locationRepository;
@@ -26,9 +26,9 @@ namespace EmployeeDirectoryWebAPI.Controllers
         [HttpGet("{id:int}", Name = "GetLocationById")]
         public ActionResult<List<Location>> GetLocationById(int id)
         {
-            if (id >= 0)
+            if (id <= 0)
             {
-                return BadRequest("Invalid Department id");
+                return BadRequest("Invalid Location id");
             }
             Location? location = _locationRepository.GetById(id).Result;
             if (location == null)

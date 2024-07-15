@@ -25,11 +25,11 @@ namespace EmployeeDirectoryWebAPI.Controllers
         [HttpGet("{id:int}", Name = "GetRoleDetailById")]
         public ActionResult<List<RoleDetail>> GetRoleDetailById(int id)
         {
-            if (id >= 0)
+            if (id <= 0)
             {
                 return BadRequest("Invalid RoleDetail id");
             }
-            RoleDetail? roleDetail = _roleDetailRepository.GetById(id).Result;
+            List<RoleDetail> roleDetail = _roleDetailRepository.GetRoleDetailsById(id).Result;
             if (roleDetail == null)
             {
                 return NotFound("RoleDetail Id does not exist");
